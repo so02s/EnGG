@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 from enum import IntEnum
 from datetime import date, timedelta
@@ -63,28 +63,24 @@ class FlashCard:
     word: Optional[Word] = None
     translation: Optional[Word] = None
     topic: Optional[str] = None
-    sm: SMData = SMData()
+    sm: SMData = field(default_factory=SMData)
 
-    def answer(self, rating: Rating, today: Optional[date] = None) -> None:
+    def answer(self, rating: Rating, today: Optional[date] = date.today()) -> None:
         """
         Ответ на карточку пересчитывает её значения по SM-2
         """
-        today = date.today() if today is None else today
-
         if rating == Rating.BAD:
             self.sm.bad()
         elif rating == Rating.NEUTRAL:
             self.sm.neutral()
         else:
             self.sm.good()
-
         self.sm.last_review = today
 
-    def is_due(self, today: Optional[date] = None) -> bool:
+    def is_due(self, today: Optional[date] = date.today()) -> bool:
         """
         Подошло ли время проверки карточки
         """
         if self.sm.last_review is None:
             return True
-        today = date.today() if today is None else today
         return self.sm.calculated_next_review <= today

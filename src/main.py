@@ -1,27 +1,34 @@
 import flet as ft
+from datasource import PeeweeCardRepository
+from web import study_view, add_card_view, StudyViewModel, AddCardViewModel
+from datasource.database import db
+from datasource.model.peewee_models import FlashCardModel
 
 def main(page: ft.Page):
-    page.title = "Flet counter example"
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.title = "English Flashcards"
+    page.theme_mode = ft.ThemeMode.LIGHT
 
-    input = ft.TextField(value="0", text_align=ft.TextAlign.RIGHT, width=100)
+    # Инициализация БД и зависимостей
+    db.connect()
+    db.create_tables([FlashCardModel])
+    repo = PeeweeCardRepository()
 
-    def minus_click(e):
-        input.value = str(int(input.value) - 1)
+    # Общие ViewModel (создаются один раз)
+    study_vm = StudyViewModel(repo)
+    add_vm = AddCardViewModel(repo)
 
-    def plus_click(e):
-        input.value = str(int(input.value) + 1)
+    def show_study():
+        page.clean()
+        study_view(page, study_vm, on_add_button_click)
 
-    page.add(
-        ft.Row(
-            alignment=ft.MainAxisAlignment.CENTER,
-            controls=[
-                ft.IconButton(ft.Icons.REMOVE, on_click=minus_click),
-                input,
-                ft.IconButton(ft.Icons.ADD, on_click=plus_click),
-            ],
-        )
-    )
+    def show_add():
+        page.clean()
+        add_card_view(page, add_vm, show_study)
 
-if __name__ == "__main__": 
-    ft.run(main)
+    def on_add_button_click():
+        show_add()
+
+    show_study()
+
+if __name__ == "__main__":
+    ft.app(target=main)
