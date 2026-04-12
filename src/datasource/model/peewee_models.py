@@ -9,6 +9,7 @@ class FlashCardModel(BaseModel):
     front = CharField(max_length=255)
     back = CharField(max_length=255)
     topic = CharField(null=True)
+    example = CharField(max_length=500, null=True)
     repetitions = IntegerField(default=0)
     interval = IntegerField(default=1)
     ease_factor = FloatField(default=2.5)

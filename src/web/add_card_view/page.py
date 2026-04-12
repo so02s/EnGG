@@ -1,5 +1,5 @@
 import flet as ft
-from ..view_models.add_card import AddCardViewModel
+from .model import AddCardViewModel
 
 def add_card_view(page: ft.Page, view_model: AddCardViewModel, on_back_callback):
     """Экран добавления новой карточки."""

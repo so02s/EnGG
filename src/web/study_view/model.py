@@ -1,11 +1,11 @@
-# src/viewmodels/study_viewmodel.py
+# src\web\study_view\model.py
 from datetime import date
 from typing import Optional
-from datasource import PeeweeCardRepository
+from datasource import FlashCardRepository
 from domain import FlashCard, Rating
 
 class StudyViewModel:
-    def __init__(self, repo: PeeweeCardRepository):
+    def __init__(self, repo: FlashCardRepository):
         self.repo = repo
         self.current_card: Optional[FlashCard] = None
         self._load_due_card()

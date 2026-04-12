@@ -1,1 +1,2 @@
+from .repository.interface import FlashCardRepository
 from .repository.repository import PeeweeCardRepository

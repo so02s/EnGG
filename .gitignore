@@ -16,3 +16,6 @@ local.properties
 
 .venv
 .env
+
+*.db
+*cache*

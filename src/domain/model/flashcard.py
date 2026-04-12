@@ -63,9 +63,10 @@ class FlashCard:
     word: Optional[Word] = None
     translation: Optional[Word] = None
     topic: Optional[str] = None
+    example: Optional[str] = None
     sm: SMData = field(default_factory=SMData)
 
-    def answer(self, rating: Rating, today: Optional[date] = date.today()) -> None:
+    def answer(self, rating: Rating, today: Optional[date] = None) -> None:
         """
         Ответ на карточку пересчитывает её значения по SM-2
         """
@@ -75,12 +76,12 @@ class FlashCard:
             self.sm.neutral()
         else:
             self.sm.good()
-        self.sm.last_review = today
+        self.sm.last_review = today or date.today()
 
-    def is_due(self, today: Optional[date] = date.today()) -> bool:
+    def is_due(self, today: Optional[date] = None) -> bool:
         """
         Подошло ли время проверки карточки
         """
         if self.sm.last_review is None:
             return True
-        return self.sm.calculated_next_review <= today
+        return self.sm.calculated_next_review <= (today or date.today())

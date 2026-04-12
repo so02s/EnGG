@@ -9,6 +9,7 @@ class FlashCardMapper:
             word=Word(value=model.front, lang=Lang.ENG),
             translation=Word(value=model.back, lang=Lang.RU),
             topic=model.topic,
+            example=model.example,
             sm=SMData(
                 repetitions=model.repetitions,
                 interval=model.interval,
@@ -23,6 +24,7 @@ class FlashCardMapper:
             'front': card.word.value,
             'back': card.translation.value,
             'topic': card.topic,
+            'example': card.example,
             'repetitions': card.sm.repetitions,
             'interval': card.sm.interval,
             'ease_factor': card.sm.ease_factor,

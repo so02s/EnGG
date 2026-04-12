@@ -9,9 +9,6 @@ class AddCardViewModel:
         self.topic = ""
 
     def add_card(self) -> bool:
-        """
-        Создаёт карточку и сохраняет в БД
-        """
         if not self.word_value.strip() or not self.translation_value.strip():
             return False
 
